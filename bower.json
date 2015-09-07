@@ -1,0 +1,7 @@
+{
+  "name": "testing",
+  "version": "0.0.0",
+  "dependencies": {
+    "xjs-framework": null
+  }
+}

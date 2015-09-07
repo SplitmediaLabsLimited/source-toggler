@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="xsplit:config-url" content="index_config.html" />
+
+    <title>Source Toggler</title>
+    
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="container" mode="first" transform>
+      <div id="left-slot" class="slot"><div class="border"></div></div>
+      <div id="right-slot" class="slot"><div class="border"></div></div>
+    </div>
+    <div id="dialog">
+      <button id="close">X</button>
+      <ul>
+        <li type="media">Add Media File</li>
+        <li type="camera">Add Camera</li>
+        <li type="game">Add Game</li>
+      </ul>
+    </div>
+    <script src="bower_components/xjs-framework/dist/xjs.js"></script>
+    <script src="js/sourcetoggler.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

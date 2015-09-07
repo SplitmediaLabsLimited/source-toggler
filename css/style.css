@@ -1,0 +1,107 @@
+body {
+  background: transparent;
+  margin: 0;
+}
+div {
+  position: absolute;
+}
+#container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+#container[transform] #left-slot {
+  perspective: 1920px;
+  left: 10em;
+}
+#container[transform] #left-slot .border {
+  transform: rotateY(30deg);
+}
+#container[transform] #right-slot {
+  perspective: 1920px;
+  top: 15em;
+  right: 15em;
+}
+#container[transform] #right-slot .border {
+  transform: rotateY(-30deg);
+}
+#container[transform][mode=second] #left-slot {
+  bottom: 15em;
+  left: 15em;
+}
+#container[transform][mode=second] #right-slot {
+  right: 10em;
+}
+#container #left-slot {
+  bottom: 10em;
+  height: 36em;
+  left: 5em;
+  width: 64em;
+}
+#container #right-slot {
+  height: 54em;
+  right: 5em;
+  top: 10em;
+  width: 96em;
+}
+#container .border {
+  box-shadow: 0 0 0 3em #ea7d26;
+  border-radius: 5em;
+  height: 100%;
+  width: 100%;
+}
+#container[mode=second] #left-slot {
+  height: 54em;
+  width: 96em;
+}
+#container[mode=second] #right-slot {
+  height: 36em;
+  width: 64em;
+}
+#dialog {
+  background-color: #393939;
+  box-shadow: inset 0 0 0 0.1em #111;
+  display: none;
+  font-size: 2em;
+  height: 11em;
+  left: calc(50% - 10em);
+  position: absolute;
+  top: calc(50% - 5.5em);
+  width: 20em;
+}
+#dialog.show {
+  display: block;
+}
+#dialog #close {
+  background: #111;
+  box-shadow: 0 0 0 0.1em #000;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  font-size: 0.8em;
+  float: right;
+  margin: 1em;
+  outline: none;
+}
+#dialog #close:hover {
+  background: #222;
+  box-shadow: 0 0 0 0.1em #111;
+}
+#dialog ul {
+  list-style: none;
+  margin: 2.5em 1em 1em;
+  padding: 0;
+}
+#dialog ul li {
+  background: #111;
+  box-shadow: 0 0 0 0.1em #000;
+  cursor: pointer;
+  color: #fff;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  text-align: center;
+}
+#dialog ul li:hover {
+  background: #222;
+  box-shadow: 0 0 0 0.1em #111;
+}

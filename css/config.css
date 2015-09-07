@@ -1,0 +1,164 @@
+body
+{
+  font-family: 'Calibri', 'Segoe UI', 'Arial', 'sans-serif';
+  font-size: 15px;
+  margin: 0;
+}
+.subcon
+{
+  padding: 2px;
+  padding-left: 4px;
+  margin: 10px 0 0 0;
+  color: #888;
+}
+.box
+{
+  border: 1px solid #5A5A5A;
+  padding: 6px;
+  margin: 0;
+}
+.boxInner
+{
+  border: 1px solid #000;
+  background-color: #212121;
+  color: #CCC;
+  padding: 6px;
+  font-size: 14px;
+}
+.account
+{
+  margin-bottom: 6px;
+}
+.boxInner .subtitle
+{
+  padding: 0;
+  margin-right: 20px;
+  line-height: 24px;
+}
+.boxInner div
+{
+  display: flex;
+}
+.link
+{
+  color: #FFF;
+  cursor: pointer;
+}
+.link:hover
+{
+  color: #0095DE;
+}
+.boxItem
+{
+  border: 1px solid #5A5A5A;
+  margin: 0;
+  display: inline-block;
+  width: auto;
+  padding: 2px;
+  flex: 1;
+}
+.boxItem label
+{
+  padding: 0;
+  margin-left: 6px;
+}
+.channelbox
+{
+  padding: 0;
+}
+.channel
+{
+  display: block;
+}
+.chbox
+{
+  margin: 6px;
+}
+.status
+{
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+  padding-left: 22px;
+  height: 22px;
+  line-height: 22px;
+}
+.subtitle2
+{
+  font-size: 12px;
+}
+input[type=text]
+{
+  font-size: 12px;
+  color: #999;
+  border: 1px solid #000;
+  height: 20px;
+  background-color: #393939;
+  padding: 0 4px 0 4px;
+}
+input[type=text]:hover
+{
+  background-color: #555;
+}
+input[type=text]:focus
+{
+  color: #EEE;
+}
+input[name=channel]
+{
+  margin-right: 8px;
+  width: 182px;
+}
+button
+{
+  background-color: #191919;
+  border: 1px solid #555;
+  font-size: 12px;
+  color: #FFF;
+}
+button:hover,
+button:focus,
+button:active
+{
+  background-color: #043151;
+  border: 1px solid #EEE;
+  font-size: 12px;
+  color: #FFF;
+}
+button:disabled
+{
+  background-color: #000;
+  border: 1px solid #555;
+  font-size: 12px;
+  color: #555;
+}
+button[name=save],
+button[name=cancel]
+{
+  float: right;
+  height: 22px;
+  width: auto;
+  padding: 0 16px 0 16px;
+  line-height: 20px;
+  margin: 2px;
+}
+.error
+{
+  font-size: 11px;
+  background-size: 13px 13px;
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+  padding-left: 22px;
+  height: 22px;
+  line-height: 22px;
+}
+div[name=error]
+{
+  display: none;
+}
+
+span
+{
+  display: inline-block;
+  min-width: 40px
+}

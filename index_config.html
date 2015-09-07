@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Source Toggler Properties Editor</title>
+    <link rel="stylesheet" href="css/config.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="subcon">
+        <span class="title">Source Toggler configuration (alpha)</span>
+        <div class="box">
+          <div class="boxInner channelbox">
+            <div class="name chbox">
+              <span class="subtitle">Item 1</span>
+              <select name="item1" placeholder="Select..."></select>
+            </div>
+            <div class="name chbox">
+              <span class="subtitle">Item 2</span>
+              <select name="item2" placeholder="Select..."></select>
+            </div>
+            <div class="name chbox">
+              <span class="subtitle">3D transform</span>
+              <input type="checkbox" name="transform" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button name="cancel" id="cancel">Cancel</button>
+      <button name="save" id="save">Save</button>
+    </div>
+    <script src="bower_components/xjs-framework/dist/xjs.js"></script>
+    <script src="js/config.js"></script>
+  </body>
+</html>

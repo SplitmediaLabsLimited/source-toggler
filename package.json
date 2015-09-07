@@ -1,0 +1,8 @@
+{
+  "name": "testing",
+  "version": "0.0.1",
+  "dependencies": {
+    "browser-sync": "^2.7.13",
+    "gulp": "^3.9.0"
+  }
+}
