@@ -8,6 +8,6 @@ This plugin was created to demonstrate the usage of [XSplit JS Framework](http:/
 
 ### Instructions for testing
 
-- Execute `bower install`
+- Execute `npm install`
 - After installation of dependencies, run `gulp`
 - Paste the url provided by browsersync to XSplit Broadcaster's Web URL Source
