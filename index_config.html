@@ -3,6 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Source Toggler Properties Editor</title>
+
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="bower_components/polymer/polymer.html" />
+    <link rel="import" href="bower_components/xui/imports.html" />
+    
     <link rel="stylesheet" href="css/config.css" />
   </head>
   <body>
@@ -13,11 +18,11 @@
           <div class="boxInner channelbox">
             <div class="name chbox">
               <span class="subtitle">Item 1</span>
-              <select name="item1" placeholder="Select..."></select>
+              <xui-select name="item1" placeholder="Select..."></xui-select>
             </div>
             <div class="name chbox">
               <span class="subtitle">Item 2</span>
-              <select name="item2" placeholder="Select..."></select>
+              <xui-select name="item2" placeholder="Select..."></xui-select>
             </div>
             <div class="name chbox">
               <span class="subtitle">3D transform</span>
@@ -29,6 +34,7 @@
       <button name="cancel" id="cancel">Cancel</button>
       <button name="save" id="save">Save</button>
     </div>
+
     <script src="bower_components/xjs-framework/dist/xjs.js"></script>
     <script src="js/config.js"></script>
   </body>

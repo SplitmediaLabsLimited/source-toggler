@@ -162,3 +162,7 @@ span
   display: inline-block;
   min-width: 40px
 }
+
+xui-select {
+  font-size: 11px;
+}

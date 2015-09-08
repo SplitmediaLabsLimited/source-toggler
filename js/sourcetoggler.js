@@ -50,10 +50,9 @@
     xjs.Scene.getActiveScene().then(function(scene) {
       return scene.getItems();
     }).then(function(items) {
-      var itemKey = 0;
       var _updatePosition = function(i, item) {
         item.getID().then(function(id) {
-          var filteredItem = filter.filter(function(obj) {
+          var filteredItem = filter.findIndex(function(obj) {
             if (obj.id === id) {
               return true;
             } else {
@@ -61,20 +60,18 @@
             }
           });
 
-          if (filteredItem.length === 0) return false;
+          if (filteredItem === -1) return false;
 
-          var newPos = _this.relativePositions(_this.items[itemKey]);
+          var newPos = _this.relativePositions(_this.items[filteredItem]);
 
           item.setPosition(newPos);
           item.setKeepAspectRatio(false);
 
           if (_this.transform) {
-            item.setRotateY(itemKey === 0 ? -30 : 30);
+            item.setRotateY(filteredItem === 0 ? -30 : 30);
           } else {
             item.setRotateY(0);
           }
-
-          itemKey++;
         });
       };
 
@@ -85,4 +82,28 @@
   };
 
   window.SourceToggler = SourceToggler;
+  
+  // Polyfill
+  if (!Array.prototype.findIndex) {
+    Array.prototype.findIndex = function(predicate) {
+      if (this === null) {
+        throw new TypeError('Array.prototype.findIndex called on null or undefined');
+      }
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+      var list = Object(this);
+      var length = list.length >>> 0;
+      var thisArg = arguments[1];
+      var value;
+
+      for (var i = 0; i < length; i++) {
+        value = list[i];
+        if (predicate.call(thisArg, value, i, list)) {
+          return i;
+        }
+      }
+      return -1;
+    };
+  }
 })();

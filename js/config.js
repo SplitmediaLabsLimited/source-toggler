@@ -58,7 +58,7 @@
 
     // Select box event listeners
     var itemsValue = [];
-    itemsDom[0].addEventListener('change', function()
+    itemsDom[0].addEventListener('select-changed', function()
     {
         if (this.value === itemsValue[1])
         {
@@ -69,7 +69,7 @@
         itemsValue[0] = this.value;
     });
 
-    itemsDom[1].addEventListener('change', function()
+    itemsDom[1].addEventListener('select-changed', function()
     {
         if (this.value === itemsValue[0])
         {
@@ -85,7 +85,7 @@
       curScene = scene;
       scene.getItems().then(function(items) {
         var _addItem = function(item) {
-          var option = document.createElement('option');
+          var option = document.createElement('xui-option');
 
           var promise;
           if (curID === '') {
