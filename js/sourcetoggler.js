@@ -6,7 +6,7 @@
   var xjs = require('xjs');
 
   function SourceToggler(node) {
-    if (!node instanceof HTMLElement) throw new Error('Invalid node received');
+    if (!(node instanceof HTMLElement)) throw new Error('Invalid node received');
 
     this.parent = node;
     this.items = [
@@ -45,7 +45,7 @@
   SourceToggler.prototype.configureItems = function(filter) {
     var _this = this;
 
-    if (!filter instanceof Array || filter.length === 0) return;
+    if (!(filter instanceof Array) || filter.length === 0) return;
 
     xjs.Scene.getActiveScene().then(function(scene) {
       return scene.getItems();
