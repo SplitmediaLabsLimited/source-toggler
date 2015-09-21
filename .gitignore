@@ -1,2 +1,4 @@
 node_modules/
-bower_components/
+bower_components/core-component-page/
+bower_components/polymer/
+bower_components/webcomponentsjs/
