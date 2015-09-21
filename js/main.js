@@ -5,51 +5,44 @@
 
   var xjs = require('xjs');
 
-  xjs.ready().then(xjs.Item.getCurrentSource).then(function(item) {
+  xjs.ready().then(xjs.Item.getCurrentSource).then(function(curItem) {
     var sourceWindow = xjs.SourcePluginWindow.getInstance();
     var container    = document.querySelector('#container');
     var toggler      = new window.SourceToggler(container);
-    var items        = [];
+    var items        = {};
 
     /**
      * Parse the configuration string passed by config dialog, or
      * the configuration string saved on the item
-     * 
+     *
      * This will set the plugin to maximize (full screen/stage) and also
      * attach the source items to be modified by the plugin :)
      */
     var _setData = function(data) {
-      item.saveConfig(data);
-      items = data.data;
+      curItem.saveConfig(data);
+      items = data;
 
-      var isTransform = items.filter(function(obj) {
-        if (obj.transform === true) {
-          return true;
-        } else {
-          return false;
-        }
-      }).length > 0;
-
-      if (isTransform) {
-        container.setAttribute('transform', true);
+      if (items.transform) {
+        container.setAttribute('transform', 'true');
       } else {
         container.removeAttribute('transform');
       }
 
-      toggler.transform = isTransform;
+      toggler.transform = items.transform;
       toggler.configureItems(items);
 
       var rect = xjs.Rectangle.fromCoordinates(0,0,1,1);
 
       // Maximize source toggler plugin
-      item.setPosition(rect);
+      curItem.setPosition(rect);
+      curItem.setPositionLocked(true);
     };
 
     // Listen config dialog, save data passed by config dialog
     sourceWindow.on('save-config', _setData);
 
     // Load the saved configuration
-    item.loadConfig().then(_setData);
+    curItem.loadConfig().then(_setData);
 
     // Toggle the mode
     container.addEventListener('dblclick', function() {
@@ -58,7 +51,7 @@
 
       container.setAttribute('mode', mode);
 
-      if (items.length > 0) {
+      if (Object.keys(items).length > 0) {
         toggler.configureItems(items);
       }
     });
@@ -72,7 +65,7 @@
         return false;
       }
     };
-    
+
     document.oncontextmenu = function() { return false; };
 
     var _resize = function() {
@@ -83,7 +76,7 @@
       left.style.perspective = container.clientWidth + 'px';
       right.style.perspective = container.clientWidth + 'px';
 
-      if (items.length > 0) {
+      if (Object.keys(items).length > 0) {
         toggler.configureItems(items);
       }
 

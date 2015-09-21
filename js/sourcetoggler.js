@@ -19,7 +19,7 @@
 
   /**
    * Get the relative position of the specified element
-   * 
+   *
    * @param  {HTMLElement} elem
    * @return {Rectangle}
    */
@@ -39,36 +39,30 @@
 
   /**
    * Configure the 'attached' items
-   * 
+   *
    * @param  {Array} filter  [{id:string}]
    */
   SourceToggler.prototype.configureItems = function(filter) {
     var _this = this;
 
-    if (!(filter instanceof Array) || filter.length === 0) return;
+    if (filter.item1 === undefined || filter.item2 === undefined) return;
 
     xjs.Scene.getActiveScene().then(function(scene) {
       return scene.getItems();
     }).then(function(items) {
       var _updatePosition = function(i, item) {
         item.getID().then(function(id) {
-          var filteredItem = filter.findIndex(function(obj) {
-            if (obj.id === id) {
-              return true;
-            } else {
-              return false;
-            }
-          });
+          if (filter.item1 !== id && filter.item2 !== id) return;
 
-          if (filteredItem === -1) return false;
-
-          var newPos = _this.relativePositions(_this.items[filteredItem]);
+          var newPos = _this.relativePositions(
+            _this.items[(id === filter.item1 ? 0 : 1)]
+          );
 
           item.setPosition(newPos);
           item.setKeepAspectRatio(false);
 
           if (_this.transform) {
-            item.setRotateY(filteredItem === 0 ? -30 : 30);
+            item.setRotateY(id === filter.item1? -30 : 30);
           } else {
             item.setRotateY(0);
           }
@@ -82,28 +76,4 @@
   };
 
   window.SourceToggler = SourceToggler;
-  
-  // Polyfill
-  if (!Array.prototype.findIndex) {
-    Array.prototype.findIndex = function(predicate) {
-      if (this === null) {
-        throw new TypeError('Array.prototype.findIndex called on null or undefined');
-      }
-      if (typeof predicate !== 'function') {
-        throw new TypeError('predicate must be a function');
-      }
-      var list = Object(this);
-      var length = list.length >>> 0;
-      var thisArg = arguments[1];
-      var value;
-
-      for (var i = 0; i < length; i++) {
-        value = list[i];
-        if (predicate.call(thisArg, value, i, list)) {
-          return i;
-        }
-      }
-      return -1;
-    };
-  }
 })();
