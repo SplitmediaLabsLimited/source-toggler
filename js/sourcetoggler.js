@@ -30,8 +30,8 @@
     var bottom = elem.offsetHeight + top;
 
     return xjs.Rectangle.fromCoordinates(
-      (top - 1) / window.innerHeight,
       (left - 1) / window.innerWidth,
+      (top - 1) / window.innerHeight,
       (right + 1) / window.innerWidth,
       (bottom + 1) / window.innerHeight
     );
@@ -47,11 +47,16 @@
 
     if (filter.item1 === undefined || filter.item2 === undefined) return;
 
-    xjs.Scene.getActiveScene().then(function(scene) {
+    xjs.ready().then(xjs.Item.getItemList)
+    .then(item => {
+      return item[0].getSceneId()
+    }).then(id => {
+      return xjs.Scene.getById(id)
+    }).then(function(scene) {
       return scene.getItems();
     }).then(function(items) {
       var _updatePosition = function(i, item) {
-        item.getID().then(function(id) {
+        item.getId().then(function(id) {
           if (filter.item1 !== id && filter.item2 !== id) return;
 
           var newPos = _this.relativePositions(

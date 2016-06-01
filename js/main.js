@@ -5,11 +5,12 @@
 
   var xjs = require('xjs');
 
-  xjs.ready().then(xjs.Item.getCurrentSource).then(function(curItem) {
+  xjs.ready().then(xjs.Item.getItemList).then(function(item) {
     var sourceWindow = xjs.SourcePluginWindow.getInstance();
     var container    = document.querySelector('#container');
     var toggler      = new window.SourceToggler(container);
     var items        = {};
+    var curItem      = item[0]
 
     /**
      * Parse the configuration string passed by config dialog, or
@@ -19,8 +20,8 @@
      * attach the source items to be modified by the plugin :)
      */
     var _setData = function(data) {
-      curItem.saveConfig(data);
       items = data;
+      curItem.requestSaveConfig(items);
 
       if (items.transform) {
         container.setAttribute('transform', 'true');
@@ -38,11 +39,31 @@
       curItem.setPositionLocked(true);
     };
 
+    var _savedData = function(data) {
+      curItem.saveConfig(data);
+      items = data;
+
+      if (items.transform) {
+        container.setAttribute('transform', 'true');
+      } else {
+        container.removeAttribute('transform');
+      }
+
+      toggler.transform = items.transform;
+      toggler.configureItems(items);
+
+      var rect = xjs.Rectangle.fromCoordinates(0,0,1,1);
+
+      // Maximize source toggler plugin
+      curItem.setPosition(rect);
+      curItem.setPositionLocked(true);
+    }
+
     // Listen config dialog, save data passed by config dialog
-    sourceWindow.on('save-config', _setData);
+    sourceWindow.on('apply-config', _setData);
 
     // Load the saved configuration
-    curItem.loadConfig().then(_setData);
+    curItem.loadConfig().then(_savedData);
 
     // Toggle the mode
     container.addEventListener('dblclick', function() {
