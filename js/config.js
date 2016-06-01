@@ -15,12 +15,12 @@
     document.querySelector('[name=item2]')
   ];
 
-  xjs.ready().then(xjs.Item.getCurrentSource).then(function(item) {
-    curItem = item;
-    return curItem.getID();
+  xjs.ready().then(xjs.Item.getItemList).then(function(item) {
+    curItem = item[0];
+    return curItem.getId();
   }).then(function(curID) {
     // Configure config window style/type
-    var configWindow = xjs.SourceConfigWindow.getInstance();
+    var configWindow = xjs.SourcePropsWindow.getInstance();
     configWindow.useTabbedWindow({
       customTabs: ['Custom'],
       tabOrder: ['Custom', 'Color', 'Layout', 'Transition']
@@ -36,11 +36,11 @@
 
       // Re-arrange the source list
       var _rearrange = function(i) {
-        videoItems[i].getID().then(function(id) {
+        videoItems[i].getId().then(function(id) {
           if (id === curID) {
             var _item = videoItems.splice(i, 1);
             videoItems.unshift(_item[0])
-            curScene.setItemOrder(videoItems);
+            curScene.setSourceOrder(videoItems);
           }
         });
       };
@@ -49,14 +49,15 @@
         _rearrange(i);
       }
 
-      curItem.requestSaveConfig(json);
+      curItem.applyConfig(json);
+      curItem.requestSaveConfig(json)
 
-      configWindow.closeConfig();
+      configWindow.close();
     });
 
     // Cancel event listener
     cancelButton.addEventListener('click', function() {
-      configWindow.closeConfig();
+      configWindow.close();
     });
 
     // Select box event listeners
@@ -92,7 +93,7 @@
 
 
           return new Promise(function(resolve) {
-            item.getID().then(function(id) {
+            item.getId().then(function(id) {
               if (curID !== id) {
                 option.value = id;
                 return item.getCustomName();
