@@ -1,45 +1,3 @@
-/**
- * XSplit JS Framework
- * version: 1.4.0
- *
- * XSplit Extensibility Framework and Plugin License
- *
- * Copyright (c) 2015, SplitmediaLabs Limited
- * All rights reserved.
- *
- * Redistribution and use in source, minified or binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in minified or binary form must reproduce the above
- *    copyright notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * 3. This software, in source, minified and binary forms, and any derivatives
- *    hereof, may be used only with the purpose to extend the functionality of the
- *    XSplit products, developed and published by SplitmediaLabs Limited. It may
- *    specifically not be used for extending the functionality of any other software
- *    products which enables live streaming and/or recording functions.
- *
- * 4. This software may not be used to circumvent paid feature restrictions for
- *    free and personal licensees of the XSplit products.
- *
- * THIS SOFTWARE IS PROVIDED BY SPLITMEDIALABS LIMITED ''AS IS'' AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
- * SHALL SPLITMEDIALABS LIMITED BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
- * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
- * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
- * OF SUCH DAMAGE.
- *
- */
-
-
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /// <reference path="../../defs/es6-promise.d.ts" />
 var app_1 = require('../internal/app');
@@ -3669,30 +3627,41 @@ var ItemConfigurable = (function () {
         return new Promise(function (resolve, reject) {
             if (environment_1.Environment.isSourcePlugin) {
                 var slot = item_1.Item.attach(_this._id);
-                // only allow direct saving for self
-                if (slot === 0) {
-                    // check for valid object
-                    if ({}.toString.call(configObj) === '[object Object]') {
-                        // add persisted configuration if available
-                        // currently only top level merging is available
-                        var persist = global_1.Global.getPersistentConfig();
-                        for (var key in persist) {
-                            configObj[key] = persist[key];
-                        }
-                        internal_1.exec('SetBrowserProperty', 'Configuration', JSON.stringify(configObj));
-                        resolve(_this);
+                var savingAllowed = false;
+                item_1.Item.get('itemlist').then(function (itemlist) {
+                    // for versions lower than 2.8
+                    if (itemlist === 'null') {
+                        savingAllowed = (slot === 0);
                     }
                     else {
-                        reject(Error('Configuration object should be ' +
-                            'in JSON format.'));
+                        var itemsArray = itemlist.split(',');
+                        savingAllowed = (itemsArray.indexOf(_this._id) > -1);
                     }
-                }
-                else {
-                    reject(Error('Items may only request other ' +
-                        'Items to save a configuration. Consider ' +
-                        'calling requestSaveConfig() on this Item ' +
-                        'instance instead.'));
-                }
+                    // only allow direct saving for self
+                    if (savingAllowed) {
+                        // check for valid object
+                        if ({}.toString.call(configObj) === '[object Object]') {
+                            // add persisted configuration if available
+                            // currently only top level merging is available
+                            var persist = global_1.Global.getPersistentConfig();
+                            for (var key in persist) {
+                                configObj[key] = persist[key];
+                            }
+                            internal_1.exec('SetBrowserProperty', 'Configuration', JSON.stringify(configObj));
+                            resolve(_this);
+                        }
+                        else {
+                            reject(Error('Configuration object should be ' +
+                                'in JSON format.'));
+                        }
+                    }
+                    else {
+                        reject(Error('Items may only request other ' +
+                            'Items to save a configuration. Consider ' +
+                            'calling requestSaveConfig() on this Item ' +
+                            'instance instead.'));
+                    }
+                });
             }
             else {
                 reject(Error('Extensions and source properties windows are ' +
@@ -5290,29 +5259,9 @@ var Item = (function () {
         var _this = this;
         return new Promise(function (resolve) {
             _this._name = value;
-            if (version_1.versionCompare(version_1.getVersion())
-                .is
-                .lessThan(version_1.minVersion)) {
-                item_1.Item.set('prop:name', _this._name, _this._id).then(function () {
-                    resolve(_this);
-                });
-            }
-            else {
-                item_1.Item.get('itemlist', _this._id).then(function (itemlist) {
-                    var promiseArray = [];
-                    var itemsArray = itemlist.split(',');
-                    itemsArray.forEach(function (itemId) {
-                        promiseArray.push(new Promise(function (itemResolve) {
-                            item_1.Item.set('prop:name', _this._name, itemId).then(function () {
-                                itemResolve(true);
-                            });
-                        }));
-                    });
-                    Promise.all(promiseArray).then(function () {
-                        resolve(_this);
-                    });
-                });
-            }
+            item_1.Item.set('prop:name', _this._name, _this._id).then(function () {
+                resolve(_this);
+            });
         });
     };
     /**

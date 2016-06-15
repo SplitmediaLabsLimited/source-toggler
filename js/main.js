@@ -21,7 +21,6 @@
      */
     var _setData = function(data) {
       items = data;
-      curItem.requestSaveConfig(items);
 
       if (items.transform) {
         container.setAttribute('transform', 'true');
@@ -37,6 +36,8 @@
       // Maximize source toggler plugin
       curItem.setPosition(rect);
       curItem.setPositionLocked(true);
+
+      curItem.saveConfig(items);
     };
 
     var _savedData = function(data) {
