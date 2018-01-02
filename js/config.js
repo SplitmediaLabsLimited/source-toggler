@@ -15,9 +15,11 @@
     document.querySelector('[name=item2]')
   ];
 
-  xjs.ready().then(xjs.Item.getItemList).then(function(item) {
-    curItem = item[0];
-    return curItem.getId();
+  xjs.ready().then(() => {
+    return xjs.Item.getItemList()
+  }).then(item => {
+    curItem = item[0]
+    return item[0].getId()
   }).then(function(curID) {
     // Configure config window style/type
     var configWindow = xjs.SourcePropsWindow.getInstance();
@@ -40,7 +42,7 @@
           if (id === curID) {
             var _item = videoItems.splice(i, 1);
             videoItems.unshift(_item[0])
-            curScene.setSourceOrder(videoItems);
+            curScene.setItemOrder(videoItems);
           }
         });
       };
@@ -48,11 +50,11 @@
       for (var i = 0; i < videoItems.length; i++) {
         _rearrange(i);
       }
-
       curItem.applyConfig(json);
-      curItem.requestSaveConfig(json)
+      curItem.requestSaveConfig(json).then(() => {
+        configWindow.close();
+      })
 
-      configWindow.close();
     });
 
     // Cancel event listener
@@ -138,7 +140,6 @@
         return curItem.loadConfig();
       }).then(function(config) {
         if (typeof config !== 'object') return;
-
         itemsValue[0] = config.item1;
         itemsDom[0].value = config.item1;
         itemsValue[1] = config.item2;
