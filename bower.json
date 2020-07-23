@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "polymer": "0.5",
-    "xjs-framework": "2.6.0"
+    "xjs-framework": "^2.10.2"
   }
 }
